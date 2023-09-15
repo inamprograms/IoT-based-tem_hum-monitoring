@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="text-align: center; margin-top:200px">
+        <form action="http://localhost:5000/weatherData" method="post">
+            <input type="number" name="temp" /><br><br>
+            <input type="number" name="hum" /><br><br>
+            <input type="submit" />
+        </form><br><br>
+        <!-- <a href="http://localhost:5000/getData">Get Data</a> -->
+        <button id="fetchData">Get Data</button>
+        <div id="dataContainer"></div>
+
+        <button id="Get_Graph" onclick="gData(); return false">Get Graph</button>
+        <canvas id="clients" width=500 height=400></canvas>
+  
+    </div>
+
+
+    <script>
+        const fetchButton = document.getElementById('fetchData');
+        const dataContainer = document.getElementById('dataContainer');
+
+        fetchButton.addEventListener('click', fetchData);
+
+        async function fetchData() {
+            try {
+
+                const response = await fetch('http://localhost:5000/getData');
+                const data = await response.json();
+
+                for (const record in data) {
+                    const row = data[record];
+
+                    `<tr>`
+                    for (const key in row) {
+                        const value = row[key];
+                        `<td>${value}</td>`
+                    }
+                    `</tr>`
+                }
+                `</table>`
+
+                const table = document.createElement('table');
+                table.innerHTML = `
+                <tr>
+                    <th>Sr</th>
+                    <th>Device Id</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                    <th>Time</th>
+                </tr>
+            `;
+
+                data.forEach((row) => {
+                    const rowElement = document.createElement('tr');
+                    rowElement.innerHTML = `
+                    <td>${row.Sr}</td>
+                    <td>${row.device_id}</td>
+                    <td>${row.temperature}</td>
+                    <td>${row.humidity}</td>
+                    <td>${row.date}</td>
+                `;
+                    table.appendChild(rowElement);
+                });
+                dataContainer.innerHTML = '';
+                dataContainer.appendChild(table);
+            }
+            catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script>
+        // code to get data and draw graph
+        function gData() {
+            $.get("http://localhost:5000/getData", function (result, status) {
+                var xLabels = result[2].map(function (dateTime) {
+                    return new Date(dateTime).toLocaleTimeString(); // Format the date and time as X-axis labels
+                });
+
+                var chartData = {
+                    labels: xLabels,
+                    datasets: [
+                        {
+                            label: 'Temperature',
+                            borderColor: 'blue',
+                            backgroundColor: '#382765',
+                            data: result[0],
+                            fill: false,
+                        },
+                        {
+                            label: 'Humidity',
+                            borderColor: 'red',
+                            backgroundColor: '#382765',
+                            data: result[1],
+                            fill: false,
+                        },
+                    ]
+                };
+                var context = document.getElementById('clients').getContext('2d');
+
+                var clientsChart = new Chart(context, {
+                    type: 'line', 
+                    data: chartData, // Provide the data
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'category', 
+                                title: {
+                                    display: true,
+                                    text: 'Time',
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Values',
+                                },
+                            },
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

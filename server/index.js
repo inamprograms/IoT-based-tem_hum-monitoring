@@ -1,0 +1,122 @@
+const express = require("express");
+var path = require('path')
+const mysql = require("mysql");
+const cors = require('cors')
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY_API_KEY);
+var temp = [], hum = [], time = [];
+
+var app = express();
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(express.static(__dirname + '/public'))
+
+const db = mysql.createConnection({
+    host: "86.1.199.8",
+    user: "root", 
+    password: "Asdbnm@12345",
+    database: "inamDb",
+    port: 3307,
+});
+
+app.get('/', (req, res)=>{
+    res.render('index.html')
+});
+
+app.get('/createTable', (req, res)=>{
+                                                                       
+    let sql = "CREATE TABLE temp_hum (Sr INT AUTO_INCREMENT NOT NULL, device_id VARCHAR(50), temperature INT, humidity INT, date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(Sr))";
+    db.query(sql, (err)=>{
+        if(err){
+            throw(err)
+        }
+        res.send("Table created");
+    });
+});
+
+app.post('/weatherData', (req, res)=>{
+    var temp = req.body.temp;
+    var hum = req.body.hum;
+    console.log(temp);
+    console.log(hum);
+    let sql = "INSERT INTO temp_hum (device_id, temperature, humidity) VALUES ('asasasa', ?, ?)";
+    db.query(sql, [temp, hum], (err)=>{
+        if(err){
+            throw(err)
+        }
+        res.redirect("http://localhost:5000/");
+    });
+});
+
+app.get('/getData', (req, res)=>{
+    let sql = "SELECT * FROM temp_hum";
+    db.query(sql, (err, result)=>{
+        if(err){
+            throw err;
+        }
+        formatData(result);
+        // for(const record in result){
+        //     const row = result[record];
+        //     for(const key in row){
+        //         const value = row[key];
+        //         console.log(value);
+        //     }
+        // }
+        res.send(jsonArray);
+    });
+});
+function formatData(dataArray) {
+    for(var i = 0; i < dataArray.length; i++) {
+      temp[i] = dataArray[i].temperature;
+      hum[i] = dataArray[i].humidity;
+      time[i] = dataArray[i].date;
+    }
+    jsonArray = [temp, hum, time];
+    console.log("in FormatData()...\n");
+    console.log(jsonArray);
+
+  }
+app.get('/plotData', (req, res)=>{
+    let sql = "SELECT temperature, humidity, date FROM temp_hum ";
+    db.query(sql, (err, result)=>{
+        if(err){
+            throw err;
+        }
+        var data = [
+            {
+              x: [0],
+              y: [0],
+              type: "scatter"
+            }
+        ];
+        const temp = result.temperature;
+        for (const index in result){
+            const row = result[index];
+            data[0].x.push(row.date); 
+            data[0].y.push(row.temperature);           
+        }
+        // res.send(data);
+        // console.log(data);
+        var graphOptions = {filename: "date-axes", fileopt: "overwrite"};
+        plotly.plot(data, graphOptions, function (err, msg) {
+            console.log(msg);
+        });
+    });
+});
+app.get('/plot', (req, res)=>{
+    let sql = "SELECT temperature, humidity, date FROM temp_hum ";
+    db.query(sql, (err, result)=>{
+        if(err){
+            throw err;
+        }    
+        res.send(result);
+        
+    });
+});
+
+app.listen(5000, ()=>{
+    console.log("Server is running...");
+});
+
