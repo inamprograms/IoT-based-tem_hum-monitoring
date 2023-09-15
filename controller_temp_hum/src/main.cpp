@@ -30,6 +30,8 @@ void loop() {
   Serial.print("Humudity: ");
   Serial.println(hum);
 
+  device.sendData(POST_DATA, temp, hum);
+
   delay(2000);
    
 }
