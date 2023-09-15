@@ -35,7 +35,8 @@ void database::sendData(uint8_t myChoice, float temp, float hum, String device_i
     switch (myChoice)
     {
     case POST_DATA:
-        contentLength = sprintf(payload, "{ \"device_id\" : \"%s\", \"temperature\" : \"%f\", \"humidity\" : \"%f\" }", device_id, temp,hum);
+    
+        contentLength = sprintf(payload, "{ \"device_id\" : \"%s\", \"temperature\" : \"%f\", \"humidity\" : \"%f\" }", device_id.c_str(), temp,hum);
         sprintf(packet, "POST %s HTTP/1.1\r\nHOST:%s\r\nContent-type:%s\r\nContent-length:%i\r\n\r\n%s", POST_TEMP_HUM, HOST, CONTENT_TYPE, contentLength, payload);
         Serial.print(packet);
         client.print(packet);

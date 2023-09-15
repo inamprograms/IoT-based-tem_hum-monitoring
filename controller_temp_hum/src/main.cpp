@@ -7,7 +7,7 @@
 DHT dht(DHT_PIN, DHT_TYPE);
 
 database device;
-String macAddress;
+String macAddress = "";
 
 
 void setup() {
@@ -32,7 +32,6 @@ void loop() {
   Serial.println(hum);
 
   device.connectToServer();
-
   device.sendData(POST_DATA, temp, hum, macAddress);
 
   delay(60000);
