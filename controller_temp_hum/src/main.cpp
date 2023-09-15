@@ -16,7 +16,8 @@ void setup() {
   pinMode(DHT_PIN, INPUT);
   dht.begin();
 
-  device.connect_to_wifi();
+  device.connectToWifi();
+  device.connectToServer();
   
 }
 
