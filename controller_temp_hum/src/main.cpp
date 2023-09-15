@@ -7,7 +7,7 @@
 DHT dht(DHT_PIN, DHT_TYPE);
 
 database device;
-
+String macAddress;
 
 
 void setup() {
@@ -17,7 +17,8 @@ void setup() {
   dht.begin();
 
   device.connectToWifi();
-  device.connectToServer();
+  macAddress = device.getMacAddress();
+
   
 }
 
@@ -30,8 +31,10 @@ void loop() {
   Serial.print("Humudity: ");
   Serial.println(hum);
 
-  device.sendData(POST_DATA, temp, hum);
+  device.connectToServer();
 
-  delay(2000);
+  device.sendData(POST_DATA, temp, hum, macAddress);
+
+  delay(60000);
    
 }

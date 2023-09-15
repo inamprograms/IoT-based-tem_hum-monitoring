@@ -9,20 +9,21 @@
 
 #define POST_DATA 0
 
-#define DEVICE_ID ""
+// #define DEVICE_ID ""
 #define POST_TEMP_HUM "/weatherData"
 #define CONTENT_TYPE "application/json"
 
+#include <Arduino.h>
 #include<stdint.h>
 class database
 {
 private:
     /* data */
 public:
-   
+    String getMacAddress();
     void connectToWifi();
     void connectToServer();
-    void sendData(uint8_t option, float temperature, float humidity);
+    void sendData(uint8_t option, float temperature, float humidity, String macAddress);
 
 };
 

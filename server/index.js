@@ -37,12 +37,15 @@ app.get('/createTable', (req, res)=>{
 });
 
 app.post('/weatherData', (req, res)=>{
-    var temp = req.body.temp;
-    var hum = req.body.hum;
+    var device_id = req.body.device_id;
+    var temp = req.body.temperature;
+    var hum = req.body.humidity;
+    console.log(req.body);
+    console.log(device_id);
     console.log(temp);
     console.log(hum);
-    let sql = "INSERT INTO temp_hum (device_id, temperature, humidity) VALUES ('asasasa', ?, ?)";
-    db.query(sql, [temp, hum], (err)=>{
+    let sql = "INSERT INTO temp_hum (device_id, temperature, humidity) VALUES (?, ?, ?)";
+    db.query(sql, [device_id, temp, hum], (err)=>{
         if(err){
             throw(err)
         }
