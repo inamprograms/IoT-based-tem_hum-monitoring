@@ -8,6 +8,7 @@ const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY
 var temp = [], hum = [], time = [];
 
 var app = express();
+//Middlewares
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
@@ -21,6 +22,7 @@ const db = mysql.createConnection({
     port: 3307,
 });
 
+//Routes
 app.get('/', (req, res)=>{
     res.render('index.html')
 });
