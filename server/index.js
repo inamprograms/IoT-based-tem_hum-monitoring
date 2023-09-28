@@ -10,8 +10,8 @@ var app = express();
 const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY_API_KEY);
 var temp = [], hum = [], time = [];
 
-const token = '6463671583:AAHwWUW2t8PTTBPxKjWtdreCSoOwBEtK8Kw';
-var chatId = 6682457220;
+const token = process.env.WEATHER_BOT_TOKEN;
+const chatId = 6682457220;
 const bot =  new TelegramBot(token, {polling: true});
 
 //Middlewares
@@ -21,11 +21,16 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.static(__dirname + '/public'))
 
 const db = mysql.createConnection({
-    host: "86.1.199.8",
-    user: "root", 
-    password: "Asdbnm@12345",
-    database: "inamDb",
-    port: 3307,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT,
+    // host: "86.1.199.8",
+    // user: "root", 
+    // password: "Asdbnm@12345",
+    // database: "inamDb",
+    // port: 3307,
 });
 
 //Routes
@@ -95,6 +100,7 @@ app.post('/sendDataToTelegramBot', (req, res)=>{
     
     var message = req.body.message;
     bot.sendMessage(chatId, message);
+    // bot.sendMessage(inamulrehman09, message);
     bot.on('polling_error', (e)=>{
         console.log('Polling error: ', e);
     });
