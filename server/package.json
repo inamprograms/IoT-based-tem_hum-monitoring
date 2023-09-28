@@ -20,6 +20,7 @@
     "express-validator": "^7.0.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "node-telegram-bot-api": "^0.63.0",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",
     "plotly": "^1.0.6"

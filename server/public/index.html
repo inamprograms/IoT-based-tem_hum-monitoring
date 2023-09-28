@@ -17,15 +17,15 @@
             <input type="submit" />
         </form><br><br> -->
         <!-- <a href="http://localhost:5000/getData">Get Data</a> -->
-        <button id="fetchData">Get Data</button>
-        <div id="dataContainer"></div>
+        <!-- <button id="fetchData">Get Data</button>
+        <div id="dataContainer"></div> -->
 
         <button id="Get_Graph" onclick="gData(); return false">Get Graph</button>
         <canvas id="clients" width=500 height=400></canvas>
   
     </div>
 
-
+<!-- 
     <script>
         const fetchButton = document.getElementById('fetchData');
         const dataContainer = document.getElementById('dataContainer');
@@ -79,11 +79,11 @@
                 console.error('Error:', error);
             }
         }
-    </script>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    </script> -->
 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
-        // code to get data and draw graph
+        // function to get data and draw graph
         function gData() {
             $.get("http://localhost:5000/getData", function (result, status) {
                 var xLabels = result[2].map(function (dateTime) {

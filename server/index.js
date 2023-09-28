@@ -1,13 +1,19 @@
 const express = require("express");
-var path = require('path')
+const path = require('path')
 const mysql = require("mysql");
 const cors = require('cors')
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const TelegramBot = require('node-telegram-bot-api')
+
+var app = express();
 const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY_API_KEY);
 var temp = [], hum = [], time = [];
 
-var app = express();
+const token = '6463671583:AAHwWUW2t8PTTBPxKjWtdreCSoOwBEtK8Kw';
+var chatId = 6682457220;
+const bot =  new TelegramBot(token, {polling: true});
+
 //Middlewares
 app.use(cors())
 app.use(bodyParser.json())
@@ -37,7 +43,7 @@ app.get('/createTable', (req, res)=>{
         res.send("Table created");
     });
 });
-
+//Controller sending data
 app.post('/weatherData', (req, res)=>{
     var device_id = req.body.device_id;
     var temp = req.body.temperature;
@@ -54,7 +60,7 @@ app.post('/weatherData', (req, res)=>{
         res.redirect("http://localhost:5000/");
     });
 });
-
+// Get data from database
 app.get('/getData', (req, res)=>{
     let sql = "SELECT * FROM temp_hum";
     db.query(sql, (err, result)=>{
@@ -72,6 +78,7 @@ app.get('/getData', (req, res)=>{
         res.send(jsonArray);
     });
 });
+//Function to store data into json array
 function formatData(dataArray) {
     for(var i = 0; i < dataArray.length; i++) {
       temp[i] = dataArray[i].temperature;
@@ -83,6 +90,17 @@ function formatData(dataArray) {
     console.log(jsonArray);
 
   }
+
+app.post('/sendDataToTelegramBot', (req, res)=>{
+    
+    var message = req.body.message;
+    bot.sendMessage(chatId, message);
+    bot.on('polling_error', (e)=>{
+        console.log('Polling error: ', e);
+    });
+    res.send("Telegram message sent");
+});
+// For jsut testig 
 app.get('/plotData', (req, res)=>{
     let sql = "SELECT temperature, humidity, date FROM temp_hum ";
     db.query(sql, (err, result)=>{
@@ -110,6 +128,7 @@ app.get('/plotData', (req, res)=>{
         });
     });
 });
+//Fot testing data is coming from data base
 app.get('/plot', (req, res)=>{
     let sql = "SELECT temperature, humidity, date FROM temp_hum ";
     db.query(sql, (err, result)=>{
