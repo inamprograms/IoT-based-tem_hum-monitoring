@@ -11,7 +11,8 @@ const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY
 var temp = [], hum = [], time = [];
 
 const token = process.env.WEATHER_BOT_TOKEN;
-const chatId = 6682457220;
+const chatId = 6639483412;
+// const chatId = 6682457220;
 const bot =  new TelegramBot(token, {polling: true});
 
 //Middlewares
