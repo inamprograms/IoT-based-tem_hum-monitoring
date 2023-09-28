@@ -100,7 +100,6 @@ app.post('/sendDataToTelegramBot', (req, res)=>{
     
     var message = req.body.message;
     bot.sendMessage(chatId, message);
-    // bot.sendMessage(inamulrehman09, message);
     bot.on('polling_error', (e)=>{
         console.log('Polling error: ', e);
     });
