@@ -9,6 +9,9 @@
 
 #define POST_DATA 0
 
+#define DHT_PIN D7
+#define DHT_TYPE DHT11
+
 // #define DEVICE_ID ""
 #define POST_TEMP_HUM "/weatherData"
 #define CONTENT_TYPE "application/json"
@@ -24,6 +27,8 @@ public:
     void connectToWifi();
     void connectToServer();
     void sendData(uint8_t option, float temperature, float humidity, String macAddress);
+    void fireBaseSetup();
+    void postToFirebaseDatabase(float temperature, float humidity);
 
 };
 

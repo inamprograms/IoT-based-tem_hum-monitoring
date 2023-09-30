@@ -27,11 +27,6 @@ const db = mysql.createConnection({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     port: process.env.DB_PORT,
-    // host: "86.1.199.8",
-    // user: "root", 
-    // password: "Asdbnm@12345",
-    // database: "inamDb",
-    // port: 3307,
 });
 
 //Routes

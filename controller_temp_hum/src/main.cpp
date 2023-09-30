@@ -2,13 +2,10 @@
 #include"database.hpp"
 #include<DHT.h>
 
-#define DHT_PIN D7
-#define DHT_TYPE DHT11
-DHT dht(DHT_PIN, DHT_TYPE);
+DHT dht(DHT_PIN, DHT_TYPE); 
 
 database device;
 String macAddress = "";
-
 
 void setup() {
  
@@ -19,7 +16,8 @@ void setup() {
   device.connectToWifi();
   macAddress = device.getMacAddress();
 
-  
+  device.fireBaseSetup();
+
 }
 
 void loop() {
@@ -31,9 +29,10 @@ void loop() {
   Serial.print("Humudity: ");
   Serial.println(hum);
 
-  device.connectToServer();
-  device.sendData(POST_DATA, temp, hum, macAddress);
 
-  delay(60000);
+  // device.connectToServer();
+  // device.sendData(POST_DATA, temp, hum, macAddress);
+  device.postToFirebaseDatabase(temp, hum);
+  delay(15000);
    
 }
