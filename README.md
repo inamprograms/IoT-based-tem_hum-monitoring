@@ -29,4 +29,6 @@ IoT-based temperature and humidity monitoring system is designed to keep records
 
 
 [Hi INAM ]
+[Hi INAM 1]
+[Hi INAM 2]
 //[HAFIZ_MUHAMMAD_UMAR_SAEED](https://github.com/hafizumar88)
