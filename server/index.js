@@ -7,7 +7,6 @@ require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api')
 
 var app = express();
-const plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY_API_KEY);
 var temp = [], hum = [], time = [];
 
 const token = process.env.WEATHER_BOT_TOKEN;
@@ -44,6 +43,7 @@ app.get('/createTable', (req, res)=>{
         res.send("Table created");
     });
 });
+
 //Controller sending data
 app.post('/weatherData', (req, res)=>{
     var device_id = req.body.device_id;
@@ -61,6 +61,7 @@ app.post('/weatherData', (req, res)=>{
         res.redirect("http://localhost:5000/");
     });
 });
+
 // Get data from database
 app.get('/getData', (req, res)=>{
     let sql = "SELECT * FROM temp_hum";
@@ -69,16 +70,10 @@ app.get('/getData', (req, res)=>{
             throw err;
         }
         formatData(result);
-        // for(const record in result){
-        //     const row = result[record];
-        //     for(const key in row){
-        //         const value = row[key];
-        //         console.log(value);
-        //     }
-        // }
         res.send(jsonArray);
     });
 });
+
 //Function to store data into json array
 function formatData(dataArray) {
     for(var i = 0; i < dataArray.length; i++) {
@@ -89,9 +84,9 @@ function formatData(dataArray) {
     jsonArray = [temp, hum, time];
     console.log("in FormatData()...\n");
     console.log(jsonArray);
-
   }
 
+//Telegram Bot sending data
 app.post('/sendDataToTelegramBot', (req, res)=>{
     
     var message = req.body.message;
@@ -101,7 +96,8 @@ app.post('/sendDataToTelegramBot', (req, res)=>{
     });
     res.send("Telegram message sent");
 });
-// For jsut testig 
+
+// For jsut testing
 app.get('/plotData', (req, res)=>{
     let sql = "SELECT temperature, humidity, date FROM temp_hum ";
     db.query(sql, (err, result)=>{
@@ -129,7 +125,8 @@ app.get('/plotData', (req, res)=>{
         });
     });
 });
-//Fot testing data is coming from data base
+
+//For testing data is coming from data base
 app.get('/plot', (req, res)=>{
     let sql = "SELECT temperature, humidity, date FROM temp_hum ";
     db.query(sql, (err, result)=>{

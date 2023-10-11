@@ -1,14 +1,15 @@
 #include <Arduino.h>
-#include"database.hpp"
-#include<DHT.h>
+#include "database.hpp"
+#include <DHT.h>
 
-DHT dht(DHT_PIN, DHT_TYPE); 
+DHT dht(DHT_PIN, DHT_TYPE);
 
 database device;
 String macAddress = "";
 
-void setup() {
- 
+void setup()
+{
+
   Serial.begin(9600);
   pinMode(DHT_PIN, INPUT);
   dht.begin();
@@ -16,12 +17,12 @@ void setup() {
   device.connectToWifi();
   macAddress = device.getMacAddress();
 
-  device.fireBaseSetup();
-
+  // device.fireBaseSetup();
 }
 
-void loop() {
-   
+void loop()
+{
+
   float temp = dht.readTemperature();
   float hum = dht.readHumidity();
   Serial.print("Temperature: ");
@@ -29,10 +30,8 @@ void loop() {
   Serial.print("Humudity: ");
   Serial.println(hum);
 
-
-  // device.connectToServer();
-  // device.sendData(POST_DATA, temp, hum, macAddress);
-  device.postToFirebaseDatabase(temp, hum);
+  device.connectToServer();
+  device.sendData(POST_DATA, temp, hum, macAddress);
+  // device.postToFirebaseDatabase(temp, hum);
   delay(15000);
-   
 }

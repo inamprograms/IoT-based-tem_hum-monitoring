@@ -10,77 +10,12 @@
 </head>
 
 <body>
-    <div style="text-align: center; margin-top:200px">
-        <!-- <form action="http://localhost:5000/weatherData" method="post">
-            <input type="number" name="temp" /><br><br>
-            <input type="number" name="hum" /><br><br>
-            <input type="submit" />
-        </form><br><br> -->
-        <!-- <a href="http://localhost:5000/getData">Get Data</a> -->
-        <!-- <button id="fetchData">Get Data</button>
-        <div id="dataContainer"></div> -->
-
+    <div style="text-align: center; margin-top:200px; background-color:rgb(126, 134, 137);">
         <button id="Get_Graph" onclick="gData(); return false">Get Graph</button>
         <canvas id="clients" width=500 height=400></canvas>
-  
     </div>
 
-<!-- 
-    <script>
-        const fetchButton = document.getElementById('fetchData');
-        const dataContainer = document.getElementById('dataContainer');
-
-        fetchButton.addEventListener('click', fetchData);
-
-        async function fetchData() {
-            try {
-
-                const response = await fetch('http://localhost:5000/getData');
-                const data = await response.json();
-
-                for (const record in data) {
-                    const row = data[record];
-
-                    `<tr>`
-                    for (const key in row) {
-                        const value = row[key];
-                        `<td>${value}</td>`
-                    }
-                    `</tr>`
-                }
-                `</table>`
-
-                const table = document.createElement('table');
-                table.innerHTML = `
-                <tr>
-                    <th>Sr</th>
-                    <th>Device Id</th>
-                    <th>Temperature</th>
-                    <th>Humidity</th>
-                    <th>Time</th>
-                </tr>
-            `;
-
-                data.forEach((row) => {
-                    const rowElement = document.createElement('tr');
-                    rowElement.innerHTML = `
-                    <td>${row.Sr}</td>
-                    <td>${row.device_id}</td>
-                    <td>${row.temperature}</td>
-                    <td>${row.humidity}</td>
-                    <td>${row.date}</td>
-                `;
-                    table.appendChild(rowElement);
-                });
-                dataContainer.innerHTML = '';
-                dataContainer.appendChild(table);
-            }
-            catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    </script> -->
-
+<!-- Scripts -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
         // function to get data and draw graph
@@ -112,12 +47,12 @@
                 var context = document.getElementById('clients').getContext('2d');
 
                 var clientsChart = new Chart(context, {
-                    type: 'line', 
+                    type: 'line',
                     data: chartData, // Provide the data
                     options: {
                         scales: {
                             x: {
-                                type: 'category', 
+                                type: 'category',
                                 title: {
                                     display: true,
                                     text: 'Time',
@@ -136,6 +71,7 @@
             });
         }
     </script>
+    
 </body>
 
 </html>

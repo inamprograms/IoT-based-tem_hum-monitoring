@@ -17,7 +17,7 @@
 #define CONTENT_TYPE "application/json"
 
 #include <Arduino.h>
-#include<stdint.h>
+#include <stdint.h>
 class database
 {
 private:
@@ -29,9 +29,6 @@ public:
     void sendData(uint8_t option, float temperature, float humidity, String macAddress);
     void fireBaseSetup();
     void postToFirebaseDatabase(float temperature, float humidity);
-
 };
-
-
 
 #endif
