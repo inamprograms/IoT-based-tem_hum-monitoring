@@ -17,6 +17,7 @@ void setup()
   device.connectToWifi();
   macAddress = device.getMacAddress();
 
+  device.fireBaseSetup();
   // device.fireBaseSetup();
 }
 
