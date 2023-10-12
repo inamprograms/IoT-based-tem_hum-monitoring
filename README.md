@@ -27,7 +27,7 @@ IoT-based temperature and humidity monitoring system is designed to keep records
 - Databases: MySql, Firebase Real-Time Database
 - Web development: HTML, CSS and JavaScript
 
-===============
+==================================
 
 - [controller_temp_hum](/controller_temp_hum/README.md)
 - [server](/server/README.md)

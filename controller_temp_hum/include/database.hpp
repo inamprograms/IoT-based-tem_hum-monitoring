@@ -1,10 +1,10 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP
 
-#define SSID "inam"
-#define PASSWORD "123456789"
+// #define WIFI_SSID "Tenda_0F1FF0"
+// #define PASSWORD "Envi3691"
 
-#define HOST "192.168.137.1"
+#define HOST "192.168.0.110"
 #define HTTP_PORT 5000
 
 #define POST_DATA 0
@@ -29,6 +29,7 @@ public:
     void sendData(uint8_t option, float temperature, float humidity, String macAddress);
     void fireBaseSetup();
     void postToFirebaseDatabase(float temperature, float humidity);
+    void sendOTA();
 };
 
 #endif
